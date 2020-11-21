@@ -18,6 +18,11 @@ class CSVsCheckers():
         return self.target_idx
 
     def ensure_csvs_good(self):
+        if self._is_valid_csv(self.train_csv_path):
+            raise Exception('Train CSV is not a valid CSV')
+        elif self._is_valid_csv(self.predict_csv_path):
+            raise Exception('Predict CSV is not a valid CSV')
+
         self._check_and_add_headers()    
 
         train_file = open(self.train_csv_path)
@@ -36,7 +41,16 @@ class CSVsCheckers():
             return
         else:
             raise Exception(f'Columns in train: {train_col}, don\'t correspond to columns in predict: {predict_col}')
-            
+    
+    def _is_valid_csv(self, path: str):
+        file = open(path)
+
+        try:
+            csv.Sniffer().sniff(file.read())
+            file.close()
+            False
+        except:
+            return True
 
     def _check_and_add_headers(self, num_bytes: int = 5000):
         train_file = open(self.train_csv_path)
