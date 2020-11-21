@@ -113,8 +113,3 @@ class CSVsCheckers():
 
             if train_dtype != predict_dtype:
                 raise Exception(f'Column: {predict_name} have different data types between train and predict CSV')
-
-
-checker = CSVsCheckers('trai.csv', 'pred.csv', 5)
-checker.ensure_csvs_good()
-print(checker.get_target_idx())
